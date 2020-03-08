@@ -150,6 +150,12 @@ body > .grid {
     color: #f26202;
 }
 
+.catchat-text {
+    font-weight: bold;
+    font-size: 18px;
+    color: #f26202;
+}
+
 .messages {
     height: 100%;
     margin: 0;

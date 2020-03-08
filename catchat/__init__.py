@@ -1,7 +1,8 @@
 import os
 
 import click
-from flask import Flask
+from flask import Flask, render_template
+from flask_wtf.csrf import CSRFError
 
 from catchat.model import User, Message
 from catchat.settings import config
@@ -22,6 +23,7 @@ def create_app(config_name=None):
     register_extensions(app)
     register_blueprints(app)
     register_commands(app)
+    register_error_handlers(app)
 
     return app
 
@@ -95,3 +97,27 @@ def register_commands(app):
             db.session.add(message)
         db.session.commit()
         click.echo('Done.')
+
+
+def register_error_handlers(app):
+    @app.errorhandler(400)
+    def bad_request(e):
+        return render_template('error.html', description=e.description, code=e.code), 400
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('error.html', description=e.description, code=e.code), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('error.html', description='Internal Server Error.', code='500'), 500
+
+    @app.errorhandler(CSRFError)
+    def handle_csrf_error(e):
+        return render_template('error.html', description=e.description, code=e.code), 400
+
+
+
+
+
+

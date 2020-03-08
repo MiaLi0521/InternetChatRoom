@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}{{ code }} Error{% endblock %}
+{% block nav %}{% endblock %}
+
+{% block content %}
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <div class="ui attached message">
+            <div class="header ui image">
+                <img src="{{ url_for('static', filename='logo.png') }}" class="image">
+                <div class="content">
+                    <span class="catchat-text">CatChat</span> - {{ code }}
+                </div>
+            </div>
+            <p>{{ description }}</p>
+            <a class="icon" href="{{ url_for('chat.home') }}">Return Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
